@@ -2,6 +2,7 @@ package com.maxsolutions.storytail.storymanagement.logic.impl.usecase;
 
 import java.util.Optional;
 
+import javax.annotation.security.RolesAllowed;
 import javax.inject.Named;
 
 import org.slf4j.Logger;
@@ -10,7 +11,9 @@ import org.springframework.data.domain.Page;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.annotation.Validated;
 
+import com.maxsolutions.storytail.eventmanagement.logic.api.security.EventmanagementAccessControlConfig;
 import com.maxsolutions.storytail.storymanagement.dataaccess.api.StoryEntity;
+import com.maxsolutions.storytail.storymanagement.logic.api.security.StorymanagementAccessControlConfig;
 import com.maxsolutions.storytail.storymanagement.logic.api.to.StoryEto;
 import com.maxsolutions.storytail.storymanagement.logic.api.to.StorySearchCriteriaTo;
 import com.maxsolutions.storytail.storymanagement.logic.api.usecase.UcFindStory;
@@ -28,6 +31,7 @@ public class UcFindStoryImpl extends AbstractStoryUc implements UcFindStory {
 	private static final Logger LOG = LoggerFactory.getLogger(UcFindStoryImpl.class);
 
 	@Override
+	@RolesAllowed(StorymanagementAccessControlConfig.PERMISSION_FIND_STORY)
 	public StoryEto findStory(long id) {
 		LOG.debug("Get Story with id {} from database.", id);
 		Optional<StoryEntity> foundEntity = getStoryRepository().findById(id);
@@ -38,6 +42,7 @@ public class UcFindStoryImpl extends AbstractStoryUc implements UcFindStory {
 	}
 
 	@Override
+	@RolesAllowed(StorymanagementAccessControlConfig.PERMISSION_FIND_STORY)
 	public Page<StoryEto> findStorys(StorySearchCriteriaTo criteria) {
 		Page<StoryEntity> storys = getStoryRepository().findByCriteria(criteria);
 		return mapPaginatedEntityList(storys, StoryEto.class);
