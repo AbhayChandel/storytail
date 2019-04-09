@@ -2,6 +2,7 @@ package com.maxsolutions.storytail.eventmanagement.logic.impl.usecase;
 
 import java.util.Optional;
 
+import javax.annotation.security.PermitAll;
 import javax.annotation.security.RolesAllowed;
 import javax.inject.Named;
 
@@ -12,7 +13,6 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.annotation.Validated;
 
 import com.maxsolutions.storytail.eventmanagement.dataaccess.api.EventEntity;
-import com.maxsolutions.storytail.eventmanagement.logic.api.security.EventmanagementAccessControlConfig;
 import com.maxsolutions.storytail.eventmanagement.logic.api.to.EventEto;
 import com.maxsolutions.storytail.eventmanagement.logic.api.to.EventSearchCriteriaTo;
 import com.maxsolutions.storytail.eventmanagement.logic.api.usecase.UcFindEvent;
@@ -30,7 +30,7 @@ public class UcFindEventImpl extends AbstractEventUc implements UcFindEvent {
 	private static final Logger LOG = LoggerFactory.getLogger(UcFindEventImpl.class);
 
 	@Override
-	@RolesAllowed(EventmanagementAccessControlConfig.PERMISSION_FIND_EVENT)
+	@PermitAll
 	public EventEto findEvent(long id) {
 		LOG.debug("Get Event with id {} from database.", id);
 		Optional<EventEntity> foundEntity = getEventRepository().findById(id);
@@ -41,7 +41,7 @@ public class UcFindEventImpl extends AbstractEventUc implements UcFindEvent {
 	}
 
 	@Override
-	@RolesAllowed(EventmanagementAccessControlConfig.PERMISSION_FIND_EVENT)
+	@PermitAll
 	public Page<EventEto> findEvents(EventSearchCriteriaTo criteria) {
 		Page<EventEntity> events = getEventRepository().findByCriteria(criteria);
 		return mapPaginatedEntityList(events, EventEto.class);
