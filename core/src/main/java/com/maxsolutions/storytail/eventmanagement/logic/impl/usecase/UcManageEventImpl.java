@@ -2,6 +2,7 @@ package com.maxsolutions.storytail.eventmanagement.logic.impl.usecase;
 
 import java.util.Objects;
 
+import javax.annotation.security.PermitAll;
 import javax.annotation.security.RolesAllowed;
 import javax.inject.Named;
 
@@ -11,7 +12,6 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.annotation.Validated;
 
 import com.maxsolutions.storytail.eventmanagement.dataaccess.api.EventEntity;
-import com.maxsolutions.storytail.eventmanagement.logic.api.security.EventmanagementAccessControlConfig;
 import com.maxsolutions.storytail.eventmanagement.logic.api.to.EventEto;
 import com.maxsolutions.storytail.eventmanagement.logic.api.usecase.UcManageEvent;
 import com.maxsolutions.storytail.eventmanagement.logic.base.usecase.AbstractEventUc;
@@ -28,7 +28,7 @@ public class UcManageEventImpl extends AbstractEventUc implements UcManageEvent 
 	private static final Logger LOG = LoggerFactory.getLogger(UcManageEventImpl.class);
 
 	@Override
-	@RolesAllowed(EventmanagementAccessControlConfig.PERMISSION_DELETE_EVENT)
+	@PermitAll
 	public boolean deleteEvent(long eventId) {
 
 		EventEntity event = getEventRepository().find(eventId);
@@ -38,7 +38,7 @@ public class UcManageEventImpl extends AbstractEventUc implements UcManageEvent 
 	}
 
 	@Override
-	@RolesAllowed(EventmanagementAccessControlConfig.PERMISSION_SAVE_EVENT)
+	@PermitAll
 	public EventEto saveEvent(EventEto event) {
 
 		Objects.requireNonNull(event, "event");
