@@ -5,6 +5,7 @@ eclipse-target
 NestJS/node_modules/
 NestJS/.vscode/
 
+*.mv.db
 *.log
 *.class
 *.classpath
